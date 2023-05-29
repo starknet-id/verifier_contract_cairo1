@@ -29,7 +29,6 @@ mod VerifierContract {
     #[external]
     fn write_confirmation(token_id: felt252, timestamp: felt252, field: felt252, data: felt252, sig: (felt252, felt252)) {
         let caller = get_caller_address();
-        // voir si le read je peux pas le mettre dans le dispatcher
         let starknetid_contract = _starknetid_contract::read();
         let owner =  IStarknetIDDispatcher {contract_address: starknetid_contract}.owner_of(token_id);
         assert(caller == owner, 'Caller is not owner');
