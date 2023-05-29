@@ -11,7 +11,7 @@ use cheatcodes::RevertedTransactionTrait;
 use protostar_print::PrintTrait;
 
 #[test]
-fn test_increase_balance() {
+fn test_write_confirmation() {
     // Deploy verifier contract
     let mut params = ArrayTrait::new();
     params.append(42);
