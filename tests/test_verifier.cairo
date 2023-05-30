@@ -11,10 +11,11 @@ use cheatcodes::RevertedTransactionTrait;
 use protostar_print::PrintTrait;
 
 #[test]
+#[available_gas(2000000)]
 fn test_write_confirmation() {
     // Deploy verifier contract
     let mut params = ArrayTrait::new();
-    params.append(42);
+    params.append(0);
     params.append(1576987121283045618657875225183003300580199140020787494777499595331436496159);
     let contract_address = deploy_contract('verifier', @params).unwrap();
 
@@ -27,7 +28,7 @@ fn test_write_confirmation() {
     // Should write confirmation
     let mut invoke_calldata = ArrayTrait::new();
     invoke_calldata.append(1);
-    invoke_calldata.append(pow(2, 128).into());
+    invoke_calldata.append(1717096180);
     invoke_calldata.append(32782392107492722);
     invoke_calldata.append(707979046952239197);
     invoke_calldata.append(
@@ -37,25 +38,8 @@ fn test_write_confirmation() {
         3369339735225989044856582139053547932849348534803432731455132141425388526099,
     );
     let invoke_result = invoke(contract_address, 'write_confirmation', @invoke_calldata);
-
     assert(!invoke_result.is_err(), 'write_confirmation failed');
 
     stop_prank(123).unwrap();
 }
 
-// Raise a number to a power.
-/// * `base` - The number to raise.
-/// * `exp` - The exponent.
-/// # Returns
-/// * `felt252` - The result of base raised to the power of exp.
-fn pow(base: u128, mut exp: u128) -> u128 {
-    let mut res = 1;
-    loop {
-        if exp == 0 {
-            break res;
-        } else {
-            res = base * res;
-        }
-        exp = exp - 1;
-    }
-}
