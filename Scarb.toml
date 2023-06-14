@@ -1,0 +1,5 @@
+[package]
+name = "verifier_contract"
+version = "0.1.0"
+
+[dependencies]
